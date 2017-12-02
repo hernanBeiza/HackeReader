@@ -1,0 +1,12 @@
+extends ../../node_modules/jade-bootstrap/_bootstrap
+append styles
+	//  !-- Custom styles for this view --
+	link(href="../css/404.css", rel="stylesheet")    
+block body
+	div.wrap
+		div.logo
+			h1 404
+			p Error occurred! - File not Found
+		div.sub
+			p Back
+append scripts
