@@ -13,24 +13,19 @@ function index(req, res) {
 		session:req.session
 	});
 	*/
-	
-	/*
-	var noticia = require("../daos/NoticiaDAO");
-	noticia.obtener(function(result,noticias,mensaje){
+	var obtenerDAO = require("./../daos/LocalDAO");
+	obtenerDAO.obtener(function(result,noticias,mensaje){
 		console.log("IndexController");
-		console.log(result,noticias,mensaje);
+		//console.log(result,noticias,mensaje);
+		
+		res.render('index', {
+			cargando : false,
+			mensaje: mensaje,
+			noticias: noticias
+		});					
 	});
-	*/
-	/*
-	res.render('index', {
-		cargando : false,
-		mensaje: mensaje,
-		noticias: noticias
-	});
-	*/
-	res.render('index');
+	//res.render('index');					
 }
-
 
 module.exports = {
 	index:index,

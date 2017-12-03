@@ -19,7 +19,6 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var dateFormat = require('dateformat');
-var now = new Date();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -71,4 +70,18 @@ app.use(function (req, res, next) {
 app.use(function (req, res, next) {
     res.status(500).render('404', {title: "Sorry, page not found"});
 });
+
+// CRON TASK
+/*
+var CronJob = require('cron').CronJob;
+var controller = require("./app/controllers/ActualizarController");
+//new CronJob('* * * * * *', function() {
+new CronJob('00 59 * * * *', function() {
+	console.log('You will see this message every cron run', dateFormat(new Date(), "dd-mm-yyyy h:MM:ss"));;
+	controller.actualizarInterno(function(result,noticias,mensaje){
+		console.log(result,noticias,mensaje);
+	});
+}, null, true, 'America/Los_Angeles');
+*/
+
 exports = module.exports = app;

@@ -22,8 +22,10 @@ function actualizar(callbackObtener){
 		        for(noticia of body.hits){
 		        	var titulo = noticia.title;
 		        	var url = noticia.url;
-		        	var id = parseInt(noticia.story_id);
+		        	var autor = noticia.author;
+		        	var idnoticia = noticia.objectID;
 		        	var fecha = noticia.created_at;
+		        	var valid = 1;
 		        	if(!titulo){
 		        		titulo = noticia.story_title;
 		        	}
@@ -32,7 +34,8 @@ function actualizar(callbackObtener){
 		        	}
 		        	if(titulo && url){
 		        		//Validar que la noticia tenga título y url
-		        		var model = {idnoticia:id,titulo:titulo,fecha:fecha,url:url};
+		        		console.log(idnoticia);
+		        		var model = {idnoticia:idnoticia,titulo:titulo,autor:autor,fecha:fecha,url:url,valid:1};
 		        		noticiasBuenas.push(model);
 		        	}
 		        }
@@ -42,7 +45,9 @@ function actualizar(callbackObtener){
     				localDAO.guardar(item,function(result,mensaje){
     					actual++;
     					if(actual==noticiasBuenas.length){
-			        		callbackObtener(true,null,"Proceso de noticias terminado");        						
+    						localDAO.obtener(function(result,noticias,mensaje){
+				        		callbackObtener(true,noticias,"Noticias obtenidas correctamente");        						
+    						})
     					}
     				});
 		        }
@@ -57,6 +62,7 @@ function actualizar(callbackObtener){
 	    }
 	});
 }
+
 
 module.exports = {
 	actualizar:actualizar

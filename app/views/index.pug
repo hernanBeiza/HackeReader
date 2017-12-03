@@ -1,18 +1,69 @@
-extends ../../node_modules/jade-bootstrap/_bootstrap
-append styles
-  //  !-- Custom styles for this view --
-  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css')
-  link(href="../css/style.css", rel="stylesheet")
-block body
-  div.container
-    div.jumbotron
-      h1 HackeReader
-      p RSS reader from HackerNews
-    if cargando
-      h4=mensaje
-      +progress-bar(60,"striped active")   
-    each noticia in ["Uno","Dos","Tres"]
-      li.list-group-item=noticia
-        span.badge
-          i.fa.fa-trash-o
-append scripts
+//- extends ../../node_modules/jade-bootstrap/_bootstrap
+
+//- bootstrap.jade
+//- bootstrap mixins
+
+//- Including Icon mixins
+include ../../node_modules/jade-bootstrap/components/icons
+//- Including Alert mixins
+include ../../node_modules/jade-bootstrap/components/alerts
+//- Including Tooltip mixins
+include ../../node_modules/jade-bootstrap/components/tooltips
+//- Including Table mixins
+include ../../node_modules/jade-bootstrap/components/tables
+//- Including Navbar mixins
+include ../../node_modules/jade-bootstrap/components/navbar
+//- Including Nav mixins
+include ../../node_modules/jade-bootstrap/components/navs
+//- Including Label mixins
+include ../../node_modules/jade-bootstrap/components/labels
+//- Including Modal dialog mixins
+include ../../node_modules/jade-bootstrap/components/modal
+//- Including List group mixins
+include ../../node_modules/jade-bootstrap/components/list-groups
+//- Including Progress bar mixins
+include ../../node_modules/jade-bootstrap/components/progress-bars
+//- Including Button mixins
+include ../../node_modules/jade-bootstrap/components/buttons
+
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport",content="width=device-width, initial-scale=1")
+    meta(name="description",content="")
+    meta(name="author",content="")
+    link(rel="icon",href="../../favicon.ico")
+    title hackeReader
+
+    link(rel="stylesheet",href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css")
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css')
+
+    //- !-- Custom styles for this view --
+    link(href="../css/style.css", rel="stylesheet")
+
+  body(data-spy="scroll",data-target=".scrollspy")
+    div.container
+      div.jumbotron
+        h1 HackeReader
+        p RSS reader from HackerNews
+      if cargando 
+        div.cargador
+          +progress-bar(100,"striped active")   
+
+      div.noticias
+        each noticia in noticias
+          div.row.noticia(onclick='irNoticia("'+noticia.url+'")')
+            div.col-md-6=noticia.titulo
+            div.col-md-3=noticia.autor
+            div.col-md-2=noticia.fecha
+            div.col-md-1
+              a(class="clickEliminar" data-noticia=''+noticia.idnoticia+'' title="Delete new")
+                span.badge            
+                  i.fa.fa-trash-o
+
+      //- Scripts
+      script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")
+      script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js")
+      script(src="js/index.js")

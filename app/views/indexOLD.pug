@@ -1,0 +1,18 @@
+extends ../../node_modules/jade-bootstrap/_bootstrap
+append styles
+  //  !-- Custom styles for this view --
+  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css')
+  link(href="../css/style.css", rel="stylesheet")
+block body
+  div.container
+    div.jumbotron
+      h1 HackeReader
+      p RSS reader from HackerNews
+    if cargando
+      h4=mensaje
+      +progress-bar(60,"striped active")   
+    each noticia in ["Uno","Dos","Tres"]
+      li.list-group-item=noticia
+        span.badge
+          i.fa.fa-trash-o
+append scripts

@@ -7,8 +7,9 @@ var ActualizarController = require('../app/controllers/ActualizarController');
 
 module.exports = function (app, passport) {
     //Index View: News Item list
-    app.get('/', IndexController.index);
+	app.get('/', IndexController.index);
     // API Routes
     app.get('/api/noticias', NoticiaController.obtener);
+    app.delete('/api/noticias/:idnoticia', NoticiaController.eliminar);
     app.get('/api/actualizar', ActualizarController.actualizar);
 }

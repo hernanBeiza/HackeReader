@@ -16,7 +16,18 @@ function actualizar(req,res){
 
 }
 
+function actualizarInterno(callback){
+	dao.actualizar(function(result,noticias,mensaje){
+		if(result){
+			callback({result:true,noticias:noticias,mensaje:mensaje});
+		} else {
+			callback({result:false,noticias:null,mensaje:mensaje})
+		}		
+	});	
+}
+
 
 module.exports = {
-	actualizar:actualizar
+	actualizar:actualizar,
+	actualizarInterno:actualizarInterno
 };

@@ -3,22 +3,32 @@
  */
 const console = require("clor");
 var mongoose = require('mongoose');
+var dateFormat = require('dateformat');
 
 var NoticiaSchema = require("../db/NoticiaSchema");
 
 function obtener(callbackObtener){
 	console.cyan.log("LocalDAO.js obtener();");
-	NoticiaSchema.find(function(err, noticias) {
+	NoticiaSchema.find({valid:1},function(err, noticias) {
 		console.log("Buscando noticias localmente");
 		if(err){
 			console.red.log(err);
 			callbackObtener(false,null,"Error al conectarse con la db local");
 		} else {
 	    	if(noticias.length==0){
-	    		console.log("Sin noticias");
-	    		callbackObtener(false,null,"No hay noticias localmente");
+	    		console.log("No hay noticias localmente");
+	    		//Ir a buscar a internet usando ActualizarDAO
+	    		var actualizarDAO = require("./ActualizarDAO");
+	    		actualizarDAO.actualizar(function(result,noticias,mensaje){
+		    		callbackObtener(result,noticias,mensaje);
+	    		});
+
 	    	} else {
 	    		console.log("Total noticias " + noticias.length);
+	    		for (noticia of noticias){
+	    			var fecha = dateFormat(noticia.fecha, "h:MM");
+	    			noticia.fecha = fecha;
+	    		}
 	    		callbackObtener(true,noticias, "Se encontraron noticias");
 	    	}
 		}
@@ -29,7 +39,7 @@ function obtenerConID(model,callbackObtener){
 	console.cyan.log("LocalDAO.js obtenerConID(); ", model.idnoticia);
 	NoticiaSchema.findOne({idnoticia:model.idnoticia},function(err, unaNoticia) {
 		if(!err){
-			console.log(unaNoticia);
+			//console.log(unaNoticia);
 	    	if(unaNoticia == null){
 				callbackObtener(false,null, "No hay noticia con ese idnoticia");
 			} else {
@@ -44,8 +54,8 @@ function obtenerConID(model,callbackObtener){
 
 function guardar(model,callbackGuardar){
 	console.cyan.log("LocalDAO.js: guardar();");
-	console.cyan.log(model);
-
+	//console.cyan.log(model);
+	//Only save the news if has a different id, story_id
 	NoticiaSchema.findOne({idnoticia:model.idnoticia},function(err, unaNoticia) {
 		if(!err){
 	    	if(unaNoticia == null){
@@ -70,37 +80,59 @@ function guardar(model,callbackGuardar){
 	});	
 }
 
-function editar(model,callbackEditar){
-	console.yellow.log("LocalDAO.js: editar(); Sin implementar");
-	console.yellow.log(model);
-}
-
-function borrar(model,callbackBorrar){
-	console.cyan.log("LocalDAO.js: borrar();");
+function actualizar(model,callbackEditar){
+	console.cyan.log("LocalDAO.js: editar();");
 	console.cyan.log(model);
-	
-	NoticiaSchema.find(function(err, noticias) {
-		if(noticias.size!=0){
-			for(var i =0;i<noticias.length;i++){
-				var noticia = noticias[i];
-				noticia.remove({_id:noticia._id},function(err){
-					if(err){
-						console.red.log(err);
-					}
-				});
-				if(i==noticia.length-1){
-					callbackBorrar(true);
-				}			
-			}
+	NoticiaSchema.findOneAndUpdate({idnoticia:model.idnoticia,autor:model.autor}, {valid:2}, {upsert:false}, function(err, laNoticia){
+		if(err){
+			console.red.log(err);
+			callbackEditar(false,err);
 		} else {
-			callbackBorrar(false);
+			console.log(laNoticia);
+			callbackEditar(true,"Noticia borrada");
 		}
 	});
+}
+
+//For update the valid. 1 mean is visible in ui, 2 was deleted from the ui
+function eliminar(idnoticia,callbackBorrar){
+	console.cyan.log("LocalDAO.js: borrar();");
+	//console.cyan.log(idnoticia);
+	NoticiaSchema.findOneAndUpdate({idnoticia:idnoticia}, {idnoticia:idnoticia,valid:2}, {upsert:false}, function(err, laNoticia){
+		if(err){
+			console.red.log(err);
+			callbackBorrar(false,err);
+		} else {
+			callbackBorrar(true,"Noticia borrada");
+		}
+	});
+	/*
+	NoticiaSchema.findOne({idnoticia:idnoticia},function(err, laNoticia) {
+		if(err){
+			console.red.log(err);
+			callbackBorrar(false,err);
+		} else {
+			if(laNoticia){
+				NoticiaSchema.remove({idnoticia:idnoticia},function(err) {
+					if(err){
+						console.red.log(err);
+						callbackBorrar(false,err);
+					} else {
+						callbackBorrar(true,"Noticia borrada");
+					}
+				});
+			} else {
+				callbackBorrar(false, "No hay noticia con ese id");
+			}
+		}
+	});
+	*/
 }
 
 module.exports = {
 	obtener:obtener,
 	obtenerConID:obtenerConID,
 	guardar:guardar,
-	borrar:borrar
+	actualizar:actualizar,
+	eliminar:eliminar
 }
