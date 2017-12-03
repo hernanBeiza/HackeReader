@@ -30,3 +30,4 @@ For dev the API, use nodemon
 - angularjs: javascript framework mvc
 - SublimeText: TextEditor
 - clor: Colorful terminar messages :)
+- momentjs: For "A few seconds ago" in the datetime col

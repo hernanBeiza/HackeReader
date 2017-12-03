@@ -13,7 +13,7 @@ function irNoticia(url){
 	win.focus();
 }
 
-$(".clickEliminar").click(function(e) {
+function eliminar(e){
 	e.preventDefault();
 	e.stopPropagation();
 	var idnoticia = $(this).data("noticia");
@@ -33,4 +33,16 @@ $(".clickEliminar").click(function(e) {
         	}
 		}
 	});
+}
+
+function cargar(){
+	console.log("cargar");
+	location.reload()
+}
+
+
+$(document).ready(function () {
+	$(".clickEliminar").click(eliminar);
+	setInterval(cargar, 1000 * 60 * 60);
+	//setInterval(cargar, 3000);
 });

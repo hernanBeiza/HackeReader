@@ -13,18 +13,18 @@ function index(req, res) {
 		session:req.session
 	});
 	*/
+
 	var obtenerDAO = require("./../daos/LocalDAO");
 	obtenerDAO.obtener(function(result,noticias,mensaje){
 		console.log("IndexController");
-		//console.log(result,noticias,mensaje);
-		
+		//console.log(result,noticias,mensaje);	
 		res.render('index', {
 			cargando : false,
 			mensaje: mensaje,
 			noticias: noticias
 		});					
 	});
-	//res.render('index');					
+
 }
 
 module.exports = {

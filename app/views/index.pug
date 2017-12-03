@@ -43,25 +43,26 @@ html(lang="en")
     //- !-- Custom styles for this view --
     link(href="../css/style.css", rel="stylesheet")
 
-  body(data-spy="scroll",data-target=".scrollspy")
-    div.container
-      div.jumbotron
-        h1 HackeReader
-        p RSS reader from HackerNews
-      if cargando 
-        div.cargador
-          +progress-bar(100,"striped active")   
+  body
+    div.jumbotron.titular
+      h1 HN Feed
+      p We <3 hackers news!
+    if cargando 
+      div.cargador
+        +progress-bar(100,"striped active")   
 
-      div.noticias
-        each noticia in noticias
-          div.row.noticia(onclick='irNoticia("'+noticia.url+'")')
-            div.col-md-6=noticia.titulo
-            div.col-md-3=noticia.autor
-            div.col-md-2=noticia.fecha
-            div.col-md-1
-              a(class="clickEliminar" data-noticia=''+noticia.idnoticia+'' title="Delete new")
-                span.badge            
-                  i.fa.fa-trash-o
+    div.noticias
+      each noticia in noticias
+        div.row.noticia(onclick='irNoticia("'+noticia.url+'")')
+          div.col-md-9
+            p.titulo=noticia.titulo + " · "
+            p.autor=noticia.autor + " · "
+          //-div.col-md-3.autor=noticia.autor
+          div.col-md-2.fecha=noticia.fecha
+          div.col-md-1
+            a(class="clickEliminar" data-noticia=''+noticia.idnoticia+'' title="Delete new")
+              span.badge            
+                i.fa.fa-trash-o
 
       //- Scripts
       script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js")

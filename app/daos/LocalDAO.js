@@ -3,7 +3,7 @@
  */
 const console = require("clor");
 var mongoose = require('mongoose');
-var dateFormat = require('dateformat');
+var moment = require('moment');
 
 var NoticiaSchema = require("../db/NoticiaSchema");
 
@@ -26,7 +26,8 @@ function obtener(callbackObtener){
 	    	} else {
 	    		console.log("Total noticias " + noticias.length);
 	    		for (noticia of noticias){
-	    			var fecha = dateFormat(noticia.fecha, "h:MM");
+	    			//var fecha = dateFormat(noticia.fecha, "h:MM");
+	    			var fecha = moment(noticia.fecha, "YYYY-MM-DD").fromNow();
 	    			noticia.fecha = fecha;
 	    		}
 	    		callbackObtener(true,noticias, "Se encontraron noticias");
