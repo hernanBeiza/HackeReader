@@ -1,12 +1,16 @@
-/**
- * Data Access Object for get elements from the service on HackerNews
- */
 const constants = require("./../../config/constants");
 const console = require("clor");
 var mongoose = require('mongoose');
-
 var localDAO = require("./LocalDAO");
 
+/**
+ * Data Access Object for get elements from the service on HackerNews
+ */
+
+/** Get the collections from the HN api
+ * @param  {callback}
+ * @return {Object} {result:true|false,noticias:[],mensaje:string} 
+ */
 function actualizar(callbackObtener){
 	console.log("NoticiaDAO.js actualizar");
 	var request = require("request");

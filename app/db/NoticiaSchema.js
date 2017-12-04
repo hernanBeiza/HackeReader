@@ -1,10 +1,10 @@
-/**
- * Objeto de la DB, esquema
- */
 var mongoose = require('mongoose');
 var db = require('./DB');
 var Schema = mongoose.Schema;
 
+/**
+ * NoticiaSchema. Local Schema for each New
+ */
 var NoticiaSchema = new Schema({
 	idnoticia:Number,
 	titulo:String,

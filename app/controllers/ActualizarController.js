@@ -5,6 +5,11 @@ var dateFormat = require('dateformat');
 const dao = require("./../daos/ActualizarDAO");
 const console = require("clor");
 
+/** Returns the news available in the RN API
+ * @param  {request} request made it from the Jquery client
+ * @param  {response} response
+ * @return {response} response in json format
+ */
 function actualizar(req,res){
 	dao.actualizar(function(result,noticias,mensaje){
 		if(result){
@@ -15,6 +20,11 @@ function actualizar(req,res){
 	});
 
 }
+/** Returns the news available in the RN API, for background update using a CRON task
+ * @param  {request} request made it from the Jquery client
+ * @param  {response} response
+ * @return {response} response in json format
+ */
 
 function actualizarInterno(callback){
 	dao.actualizar(function(result,noticias,mensaje){

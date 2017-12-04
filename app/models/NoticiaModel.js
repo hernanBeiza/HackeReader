@@ -1,3 +1,7 @@
+/**
+ * Local new object. Only for reference.
+ * @type Object
+ */
 var noticia = {
 	idnoticia: null,
 	titulo: null,

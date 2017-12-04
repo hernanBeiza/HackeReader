@@ -6,6 +6,11 @@ var dateFormat = require('dateformat');
 const dao = require("./../daos/LocalDAO");
 const console = require("clor");
 
+/** Returns the news available in local mongo db
+ * @param  {request} request made it from the Jquery client or express server
+ * @param  {response} response
+ * @return {response} response in json format
+ */
 function obtener(req,res) {
 	console.log("NoticiasController: obtener();");
 	dao.obtener(function(result,noticias,mensaje){
@@ -16,6 +21,12 @@ function obtener(req,res) {
 		}		
 	});
 }
+
+/** Update a news from the localdb
+ * @param  {request} idnoticia: story_id from the collection. autor
+ * @param  {response} response
+ * @return {response} response in json format
+ */
 
 function actualizar(req,res){
 	console.log("NoticiasController: eliminar();");
@@ -48,6 +59,12 @@ function actualizar(req,res){
 		res.json({result:false,mensaje:errores})	
 	}
 }
+
+/** Delete a news from the localdb
+ * @param  {request} idnoticia: story_id from the collection
+ * @param  {response} response
+ * @return {response} response in json format
+ */
 
 function eliminar(req,res){
 	console.log("NoticiasController: eliminar();");

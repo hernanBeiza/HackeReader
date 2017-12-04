@@ -4,13 +4,11 @@
   "private": true,
   "scripts": {
     "start": "gulp",
-    "api": "nodemon"
+    "api": "nodemon",
+    "docs": "jsdoc2md 'app/**/*.js' > Documentacion.md",
+    "html": "esdoc"
   },
   "dependencies": {
-    "angular": "^1.5.0",
-    "angular-route": "^1.6.6",
-    "angular-sanitize": "^1.6.6",
-    "angular-ui-bootstrap": "^2.5.0",
     "async": "latest",
     "basic-auth-connect": "latest",
     "bcrypt-nodejs": "0.0.3",

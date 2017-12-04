@@ -1,12 +1,16 @@
-/**
- * Data Access Object for New
- */
 const console = require("clor");
 var mongoose = require('mongoose');
 var moment = require('moment');
-
 var NoticiaSchema = require("../db/NoticiaSchema");
 
+/**
+ * Data Access Object for New local collections
+ */
+
+/** Get the locals collections
+ * @param  {callback}
+ * @return {Object} {result:true|false,noticias:[],mensaje:string} 
+ */
 function obtener(callbackObtener){
 	console.cyan.log("LocalDAO.js obtener();");
 	NoticiaSchema.find({valid:1},function(err, noticias) {
@@ -36,6 +40,10 @@ function obtener(callbackObtener){
     });
 }
 
+/** Get one collections by idnoticia
+ * @param  {callback}
+ * @return {Object} {result:true|false,noticia:Object,mensaje:string} 
+ */
 function obtenerConID(model,callbackObtener){
 	console.cyan.log("LocalDAO.js obtenerConID(); ", model.idnoticia);
 	NoticiaSchema.findOne({idnoticia:model.idnoticia},function(err, unaNoticia) {
@@ -53,6 +61,10 @@ function obtenerConID(model,callbackObtener){
 	});
 }
 
+/** Save a collection in the local MongoDB
+ * @param  {callback}
+ * @return {Object} {result:true|false,noticia:Object,mensaje:string} 
+ */
 function guardar(model,callbackGuardar){
 	console.cyan.log("LocalDAO.js: guardar();");
 	//console.cyan.log(model);
@@ -81,6 +93,10 @@ function guardar(model,callbackGuardar){
 	});	
 }
 
+/** Update a collection by id and autor
+ * @param  {callback}
+ * @return {Object} {result:true|false,noticia:Object,mensaje:string} 
+ */
 function actualizar(model,callbackEditar){
 	console.cyan.log("LocalDAO.js: editar();");
 	console.cyan.log(model);
@@ -95,7 +111,11 @@ function actualizar(model,callbackEditar){
 	});
 }
 
-//For update the valid. 1 mean is visible in ui, 2 was deleted from the ui
+/** Update a collection by id. Update the valid. 1 visible.
+ * @param  {callback}
+ * @return {Object} {result:true|false,noticia:Object,mensaje:string} 
+ */
+
 function eliminar(idnoticia,callbackBorrar){
 	console.cyan.log("LocalDAO.js: borrar();");
 	//console.cyan.log(idnoticia);
